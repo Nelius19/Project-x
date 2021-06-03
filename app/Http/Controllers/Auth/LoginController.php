@@ -26,7 +26,17 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    //ADDED CUSTOM REDIRECT. LOGIN AS DOCTOR, CHEMIST OR PATIENT USER
+    protected function redirectTo()
+    {
+        if(auth()->user()->role == "student"){
+            return 'home';
+        }
+
+        if(auth()->user()->role == "lecturer"){
+            return 'dashboard';
+        }
+    }
 
     /**
      * Create a new controller instance.

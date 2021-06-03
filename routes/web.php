@@ -19,4 +19,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Lecturer routes
+Route::group(['middleware' => ['auth', 'lecturer']], function(){
+    Route::get('/dashboard', [App\Http\Controllers\Lecturer\DashboardController::class, 'index'])->name('dashboard');
+});
+
+//Student routes
+Route::group(['middleware' => ['auth', 'student']], function(){
+    Route::get('/home', [App\Http\Controllers\Student\HomeController::class, 'index'])->name('home');
+    Route::get('/auth/{id}', [App\Http\Controllers\Student\HomeController::class, 'show']);
+    Route::post('/assessment', [App\Http\Controllers\Student\HomeController::class, 'getAssessment'])->name('assessment');
+});
+   
+
